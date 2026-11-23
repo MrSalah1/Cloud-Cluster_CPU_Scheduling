@@ -1,0 +1,79 @@
+public class Process {
+    private int id;
+    private int arrivalTime;
+    private int burstTime;
+    private int remainingTime;
+    private int priority;
+    private int firstStartTime;
+    private int finishTime;
+
+    public Process(int id, int arrivalTime, int burstTime, int priority) {
+        this.id = id;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.remainingTime = burstTime;
+        this.priority = priority;
+        this.firstStartTime = -1;
+        this.finishTime = -1;
+    }
+
+    public void executeOneUnit() {
+        if (remainingTime > 0) {
+            remainingTime--;
+        }
+    }
+
+    public void recordFirstStart(int time) {
+        if (firstStartTime == -1) {
+            firstStartTime = time;
+        }
+    }
+
+    public void recordFinish(int time) {
+        finishTime = time;
+    }
+
+    public boolean isFinished() {
+        return remainingTime == 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public int getBurstTime() {
+        return burstTime;
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public int getFirstStartTime() {
+        return firstStartTime;
+    }
+
+    public int getFinishTime() {
+        return finishTime;
+    }
+
+    public int getTurnaroundTime() {
+        return finishTime - arrivalTime;
+    }
+
+    public int getWaitingTime() {
+        return getTurnaroundTime() - burstTime;
+    }
+
+    public int getResponseTime() {
+        return firstStartTime - arrivalTime;
+    }
+}
