@@ -1,0 +1,15 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Compiled output
+out/
+*.class
+
+# Markdown: keep only README.md
+*.md
+!README.md
+
+# OS metadata
+.DS_Store
+Thumbs.db
