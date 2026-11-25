@@ -3,12 +3,16 @@ import java.util.*;
 public class RoundRobin {
     private final Queue<Process> readyQ = new LinkedList<>();
     private final List<Process> tier2;
+    private final ACSTrace trace;
 
-    public RoundRobin(List<Process> tier2) {
+    public RoundRobin(List<Process> tier2, ACSTrace trace) {
         this.tier2 = tier2;
+        this.trace = trace;
     }
 
     public int run(List<Process> processes, int quantum, int contextSwitching) {
+        readyQ.clear();
+
         if (processes.isEmpty()) {
             return 0;
         }
@@ -31,7 +35,11 @@ public class RoundRobin {
                 if (nextProcess >= n) {
                     break;
                 }
-                currtime = sortedProcesses.get(nextProcess).getArrivalTime();
+                int nextArrival = sortedProcesses.get(nextProcess).getArrivalTime();
+                while (currtime < nextArrival) {
+                    trace.add(currtime, "IDLE", readyQ, tier2);
+                    currtime++;
+                }
                 continue;
             }
 
@@ -41,6 +49,9 @@ public class RoundRobin {
             int executionTime = Math.min(quantum, current.getRemainingTime());
 
             for (int i=0; i<executionTime; i++) {
+                trace.add(currtime,
+                        "P" + current.getId() + " (rem " + current.getRemainingTime() + ")",
+                        readyQ, tier2);
                 current.executeOneUnit();
                 currtime++;
             }
@@ -56,11 +67,15 @@ public class RoundRobin {
                 // Record the time that the process finished in tier 1 
                 current.recordTier2Entry(currtime);
                 tier2.add(current);
+                trace.demote("P" + current.getId() + " (quantum expired)");
             }
             handled++;
 
             if(handled < n && !readyQ.isEmpty()) {
-                currtime+= contextSwitching;
+                for (int cs = 0; cs < contextSwitching; cs++) {
+                    trace.add(currtime, "CS", readyQ, tier2);
+                    currtime++;
+                }
             }
         }
 

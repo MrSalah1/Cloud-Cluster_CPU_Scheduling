@@ -94,31 +94,6 @@ public class SJF {
     }
 
     private static void printMetrics(List<Process> processes) {
-        int totalTat = 0;
-        int totalWt = 0;
-        int totalRt = 0;
-
-        System.out.println("\nProcess Metrics:");
-        System.out.printf("%-8s %-4s %-4s %-6s %-7s %-4s %-4s %-4s%n",
-                "Process", "AT", "BT", "Start", "Finish", "TAT", "WT", "RT");
-
-        for (Process p : processes) {
-            int tat = p.getTurnaroundTime();
-            int wt = p.getWaitingTime();
-            int rt = p.getResponseTime();
-
-            totalTat += tat;
-            totalWt += wt;
-            totalRt += rt;
-
-            System.out.printf("%-8s %-4d %-4d %-6d %-7d %-4d %-4d %-4d%n",
-                    "P" + p.getId(), p.getArrivalTime(), p.getBurstTime(),
-                    p.getFirstStartTime(), p.getFinishTime(), tat, wt, rt);
-        }
-
-        int count = processes.size();
-        System.out.printf("%nAverage TAT: %.2f%n", (double) totalTat / count);
-        System.out.printf("Average WT:  %.2f%n", (double) totalWt / count);
-        System.out.printf("Average RT:  %.2f%n", (double) totalRt / count);
+        Results.printTable("SJF Per-Process Results", processes);
     }
 }
