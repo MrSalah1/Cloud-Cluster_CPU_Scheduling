@@ -2,6 +2,11 @@
 import java.util.*;
 
 public class PriorityScheduling {
+    private final ACSTrace trace;
+
+    public PriorityScheduling(ACSTrace trace) {
+        this.trace = trace;
+    }
 
     public int run(List<Process> tier2, int currentTime) {
         if (tier2.isEmpty()) {
@@ -30,17 +35,17 @@ public class PriorityScheduling {
                 highestPriorityProcess.getRemainingTime();
 
         for (int i = 0; i < executionTime; i++) {
+            trace.add(currentTime,
+                    "P" + highestPriorityProcess.getId()
+                            + " (rem " + highestPriorityProcess.getRemainingTime()
+                            + ", prio " + highestPriorityProcess.getPriority() + ")",
+                    Collections.emptyList(), tier2);
             highestPriorityProcess.executeOneUnit();
             currentTime++;
         }
 
         // Record completion time
         highestPriorityProcess.recordFinish(currentTime);
-
-        System.out.println(
-                "P" + highestPriorityProcess.getId()
-                + " finished at time " + currentTime
-        );
 
         return currentTime;
     }

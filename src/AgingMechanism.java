@@ -1,18 +1,25 @@
+import java.util.Collections;
 import java.util.List;
 
 public class AgingMechanism {
     public static final int AGING_INTERVAL = 4;
     private final PriorityScheduling priorityScheduling;
+    private final ACSTrace trace;
 
-    public AgingMechanism() {
-        this.priorityScheduling = new PriorityScheduling();
+    public AgingMechanism(ACSTrace trace) {
+        this.trace = trace;
+        this.priorityScheduling = new PriorityScheduling(trace);
     }
 
     public int run(List<Process> tier2, int currentTime, int contextSwitching) {
         while (!tier2.isEmpty()) {
             updatePriorities(tier2, currentTime);
 
-            currentTime += contextSwitching;
+            for (int cs = 0; cs < contextSwitching; cs++) {
+                trace.add(currentTime, "CS", Collections.emptyList(), tier2);
+                currentTime++;
+            }
+
             currentTime = priorityScheduling.run(tier2, currentTime);
         }
 

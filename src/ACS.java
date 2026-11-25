@@ -5,12 +5,13 @@ public class ACS {
     private final RoundRobin tier1;
     private final AgingMechanism tier2Scheduler;
     private final List<Process> tier2;
+    private final ACSTrace trace;
 
     public ACS() {
         tier2 = new ArrayList<>();
-
-        tier1 = new RoundRobin(tier2);
-        tier2Scheduler = new AgingMechanism();
+        trace = new ACSTrace();
+        tier1 = new RoundRobin(tier2, trace);
+        tier2Scheduler = new AgingMechanism(trace);
     }
 
     public void run(
@@ -19,6 +20,7 @@ public class ACS {
             int contextSwitching) {
 
         tier2.clear();
+        trace.clear();
 
         int currentTime = tier1.run(
                 processes,
@@ -27,5 +29,9 @@ public class ACS {
         );
 
         tier2Scheduler.run(tier2, currentTime, contextSwitching);
+    }
+
+    public void printTrace() {
+        trace.print();
     }
 }
