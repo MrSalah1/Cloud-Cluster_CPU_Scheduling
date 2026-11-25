@@ -23,7 +23,10 @@ public class Main {
                         + contextSwitchTime);
                 SJF.run(createProcesses(), contextSwitchTime);
             } else if (choice == 2) {
-                /*Acs*/
+                System.out.println("\nRunning Adaptive Container Scheduler (ACS)");
+
+                ACS acs = new ACS();
+                acs.run(createProcesses(), 3, contextSwitchTime);
             } else {
                 System.out.println("Error");
             }
