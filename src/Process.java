@@ -4,6 +4,7 @@ public class Process {
     private int burstTime;
     private int remainingTime;
     private int priority;
+    private final int initialPriority;
     private int firstStartTime;
     private int finishTime;
     private int tier2EntryTime = -1;
@@ -14,6 +15,7 @@ public class Process {
         this.burstTime = burstTime;
         this.remainingTime = burstTime;
         this.priority = priority;
+        this.initialPriority = priority;
         this.firstStartTime = -1;
         this.finishTime = -1;
     }
@@ -65,6 +67,14 @@ public class Process {
 
     public int getPriority() {
         return priority;
+    }
+
+    public int getInitialPriority() {
+        return initialPriority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public int getFirstStartTime() {
