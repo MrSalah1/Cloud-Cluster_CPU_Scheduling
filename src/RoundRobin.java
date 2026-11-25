@@ -8,9 +8,9 @@ public class RoundRobin {
         this.tier2 = tier2;
     }
 
-    public void run(List<Process> processes, int quantum, int contextSwitching) {
+    public int run(List<Process> processes, int quantum, int contextSwitching) {
         if (processes.isEmpty()) {
-            return;
+            return 0;
         }
 
         List<Process> sortedProcesses = new ArrayList<>(processes);
@@ -53,6 +53,8 @@ public class RoundRobin {
             if (current.isFinished()) {
                 current.recordFinish(currtime);
             } else {
+                // Record the time that the process finished in tier 1 
+                current.recordTier2Entry(currtime);
                 tier2.add(current);
             }
             handled++;
@@ -61,5 +63,8 @@ public class RoundRobin {
                 currtime+= contextSwitching;
             }
         }
+
+        // return current time to use it in tier 2
+        return currtime;
     }
 }

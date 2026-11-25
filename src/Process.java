@@ -6,6 +6,7 @@ public class Process {
     private int priority;
     private int firstStartTime;
     private int finishTime;
+    private int tier2EntryTime = -1;
 
     public Process(int id, int arrivalTime, int burstTime, int priority) {
         this.id = id;
@@ -35,6 +36,15 @@ public class Process {
 
     public boolean isFinished() {
         return remainingTime == 0;
+    }
+
+    // will be used in aging tier
+    public void recordTier2Entry(int time) {
+        tier2EntryTime = time;
+    }
+    // will be used in aging tier
+    public int getTier2EntryTime() {
+        return tier2EntryTime;
     }
 
     public int getId() {
