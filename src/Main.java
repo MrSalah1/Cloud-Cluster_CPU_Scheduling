@@ -67,7 +67,7 @@ public class Main {
         }
     }
 
-    private static List<Process> runSJF(TestCase testCase) {
+    public static List<Process> runSJF(TestCase testCase) {
         List<Process> processes = testCase.createProcesses();
 
         System.out.println("\n--- SJF (SRTF) Execution Trace ---");
@@ -77,7 +77,7 @@ public class Main {
         return processes;
     }
 
-    private static List<Process> runACS(TestCase testCase) {
+    public static List<Process> runACS(TestCase testCase) {
         List<Process> processes = testCase.createProcesses();
 
         System.out.println("\n--- ACS Execution Trace and Demotion Matrix ---");
@@ -93,7 +93,7 @@ public class Main {
         return processes;
     }
 
-    private static void printSummary(List<Process> sjfProcesses, List<Process> acsProcesses) {
+    public static void printSummary(List<Process> sjfProcesses, List<Process> acsProcesses) {
 
         System.out.println("\n--- Average Metrics Summary ---");
 
