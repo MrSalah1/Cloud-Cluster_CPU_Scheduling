@@ -3,15 +3,16 @@ import java.util.List;
 public class Results {
     public static void printTable(String title, List<Process> processes) {
         System.out.println("\n" + title + ":");
-        System.out.printf("%-8s %8s %8s %11s %8s%n",
-                "Process", "Arrival", "Finish", "Turnaround", "Waiting");
+        System.out.printf("%-8s %8s %8s %11s %8s %9s%n",
+                "Process", "Arrival", "Finish", "Turnaround", "Waiting", "Response");
         for (Process p : processes) {
-            System.out.printf("%-8s %8d %8d %11d %8d%n",
+            System.out.printf("%-8s %8d %8d %11d %8d %9d%n",
                     "P" + p.getId(),
                     p.getArrivalTime(),
                     p.getFinishTime(),
                     p.getTurnaroundTime(),
-                    p.getWaitingTime());
+                    p.getWaitingTime(),
+                    p.getResponseTime());
         }
         System.out.printf("Average Waiting Time:    %.2f%n", averageWaitingTime(processes));
         System.out.printf("Average Turnaround Time: %.2f%n", averageTurnaroundTime(processes));
